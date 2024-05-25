@@ -34,27 +34,27 @@ The Soldier Health and Position Tracking System monitors soldiers' GPS location 
 
           lcd = CharLCD(cols=16, rows=2, pin_rs=14, pin_e=13, pins_data=[12, 11, 10, 7],numbering_mode = GPIO.BCM)
 
-
+                        
 =========== FUNCTION SETUP==============
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(hbpin, GPIO.IN )
-GPIO.output(buzzerpin,GPIO.LOW)
+            GPIO.setup(hbpin, GPIO.IN )
+            GPIO.output(buzzerpin,GPIO.LOW)
 
-port2="/dev/ttyUSB0"
-ser2=serial.Serial(port2, baudrate=9600, timeout=0.5)
+            port2="/dev/ttyUSB0"
+            ser2=serial.Serial(port2, baudrate=9600, timeout=0.5)
 
-lcd.clear()
-lcd.cursor_pos = (0, 0)
-lcd.write_string('SOLDIER SECURITY')
-lcd.cursor_pos = (1, 0)
-lcd.write_string('MONITORING SYS')
+            lcd.clear()
+            lcd.cursor_pos = (0, 0)
+                        lcd.write_string('SOLDIER SECURITY')
+                        lcd.cursor_pos = (1, 0)
+            lcd.write_string('MONITORING SYS')
 
-time.sleep(2)
+            time.sleep(2)
 
-lcd.clear()
+            lcd.clear()
                 lcd.cursor_pos = (0, 0)
                 lcd.write_string('TEMP:')
                 lcd.write_string(tempvalstr)
@@ -74,55 +74,55 @@ lcd.clear()
                 time.sleep(2)
 
 
-def buzzering():
-    GPIO.output(buzzerpin,GPIO.HIGH)
-    time.sleep(1)
-    GPIO.output(buzzerpin,GPIO.LOW)
+            def buzzering():
+                GPIO.output(buzzerpin,GPIO.HIGH)
+                time.sleep(1)
+                GPIO.output(buzzerpin,GPIO.LOW)
 
-def sendsms(msg):
-    global strlati
-    global strlongi
-    global smsnumber
-    cmd2 = cmd21 + quote+ smsnumber + quote
-    print(cmd2)
-    ser2.write(cmd1.encode()) 
-    time.sleep(3)
-    ser2.write(cmd2.encode())
-    ser2.write(cmd22.encode())
-    time.sleep(3)
-    compmsg = msg + " http://maps.google.com/?q="+strlati+","+strlongi
-    print ("Sending SMS with status info:" + compmsg)
-    ser2.write(compmsg.encode())
-    time.sleep(2)
-    ser2.write(chr(26).encode())
-    time.sleep(3)
+            def sendsms(msg):
+                global strlati
+                global strlongi
+                global smsnumber
+                cmd2 = cmd21 + quote+ smsnumber + quote
+                print(cmd2)
+                ser2.write(cmd1.encode()) 
+                time.sleep(3)
+                ser2.write(cmd2.encode())
+                ser2.write(cmd22.encode())
+                time.sleep(3)
+                compmsg = msg + " http://maps.google.com/?q="+strlati+","+strlongi
+                print ("Sending SMS with status info:" + compmsg)
+                ser2.write(compmsg.encode())
+                time.sleep(2)
+                ser2.write(chr(26).encode())
+                time.sleep(3)
     
-def locationsendsms():
-    global strlati
-    global strlongi
-    global strhbrate
-    global tempvalstr
-    global smsnumber
+            def locationsendsms():
+                global strlati
+                global strlongi
+                global strhbrate
+                global tempvalstr
+                global smsnumber
      
-    msg="STATUS : TEMPERATURE:"+ tempvalstr +" HEART BEAT:"+ strhbrate
+                msg="STATUS : TEMPERATURE:"+ tempvalstr +" HEART BEAT:"+ strhbrate
     
-    cmd2 = cmd21 + quote+ smsnumber + quote
-    print(cmd2)
-    ser2.write(cmd1.encode()) 
-    time.sleep(3)
-    ser2.write(cmd2.encode())
-    ser2.write(cmd22.encode())
-    time.sleep(3)
-    compmsg = msg + " http://maps.google.com/?q="+strlati+","+strlongi
-    print ("Sending SMS with status info:" + compmsg)
-    ser2.write(compmsg.encode())
-    time.sleep(2)
-    ser2.write(chr(26).encode())
-    time.sleep(3)    
+                cmd2 = cmd21 + quote+ smsnumber + quote
+                print(cmd2)
+                ser2.write(cmd1.encode()) 
+                time.sleep(3)
+                ser2.write(cmd2.encode())
+                ser2.write(cmd22.encode())
+                time.sleep(3)
+                compmsg = msg + " http://maps.google.com/?q="+strlati+","+strlongi
+                print ("Sending SMS with status info:" + compmsg)
+                ser2.write(compmsg.encode())
+                time.sleep(2)
+                ser2.write(chr(26).encode())
+                time.sleep(3)    
   
 ============= LOGIC=====================
          
-while True:
+            while True:
                 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
                 tempval=int(temperature)
                 humidval=int(humidity)
